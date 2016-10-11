@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: streamkit-core
+  labels:
+    name: streamkit-core
+spec:
+  containers:
+    - image: gcr.io/stream-hack/core
+      name: streamkit-core
+      ports:
+        - containerPort: 80
+          name: streamkit-http
+        - containerPort: 1935
+          name: streamkit-rtmp
+      volumeMounts:
+        - name: streamkit-storage
+          mountPath: /HLS
+  volumes:
+    - name: streamkit-storage
+      gcePersistentDisk:
+        pdName: streamkit-storage
+        fsType: ext4
